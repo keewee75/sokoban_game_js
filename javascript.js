@@ -1,12 +1,11 @@
 
-
 function buildMap() {  
 
     document.getElementById('container').style.display = "grid";
     document.getElementById('container').style.gridTemplateRows = "repeat(16, 35px)";
     document.getElementById('container').style.gridTemplateColumns = "repeat(19, 35px)";
     document.getElementById('container').style.justifyContent = "center";
-    document.getElementById('container').style.margin = "20px";
+    document.getElementById('container').style.margin = "10px";
 
     // Loop Y axis
     for (let y = 0; y < tileMap01.height; y++) {
@@ -45,8 +44,6 @@ function buildMap() {
             else  {
                 map.classList.add(Tiles.Space);
             }
-            
-            // map.classList.add('tile');
 
             document.getElementById('container').appendChild(map);
 
@@ -54,19 +51,13 @@ function buildMap() {
     }
 }
 
+// Player start position
 let playerXpos = 11;
 let playerYpos = 11;
 
-// function findPlayerCoords() {
-//     let playerDiv = document.getElementsByClassName(Entities.Character)[0];
-//     let playerPosString = playerDiv.id;
-//     playerXpos = playerPosString.split(',')[0];
-//     playerYpos = playerPosString.split(',')[1];
-//     console.log(playerDiv);
-//     console.log(playerPosString);
-//     console.log("Xpos: "+ playerXpos + " Ypos: " + playerYpos);
-//   }
-
+// Key counter variables
+let total = 0;
+const el = document.querySelector("#count");
 
 buildMap();
 
@@ -74,6 +65,9 @@ document.addEventListener('keydown', (event) => {
     event.preventDefault();
     if (event.repeat) return;
     
+    // Key counter
+    total++;
+	el.innerHTML = total + "";
 
     let xMove = 0;
     let yMove = 0;
@@ -95,8 +89,6 @@ document.addEventListener('keydown', (event) => {
 
     let newPlayerXpos = playerXpos + xMove;
     let newPlayerYpos = playerYpos + yMove;
-
-    // console.log(newPlayerXpos + "," + newPlayerYpos);
 
     // Check Tiles-Wall collision
     if (document.getElementById(`${newPlayerXpos},${newPlayerYpos}`).classList.contains(Tiles.Wall)) {
@@ -124,16 +116,10 @@ document.addEventListener('keydown', (event) => {
     playerXpos = newPlayerXpos;
     playerYpos = newPlayerYpos;
 
-    // Check all blocks done
-    
+    // Check all blocks done and display Genius !!
     let blocksDone = document.getElementsByClassName("tile-goal entity-block").length;
-    console.log(blocksDone);
     if (blocksDone === 6) {
-        // console.log("Genius!");
-        // confirm("Genius !! Play again?");
         pop.open('Genius !!', 'Press X to reload game...');
-        
-
     }
 
 
